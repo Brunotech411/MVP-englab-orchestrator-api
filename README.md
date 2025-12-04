@@ -39,13 +39,16 @@ MVP-englab-orchestrator-api/
 │   ├── models.py
 │   ├── schemas.py
 │   ├── routers/
+│   │   ├── __init__.py
 │   │   ├── conversions.py
 │   │   └── health.py
 │   └── __init__.py
-├── conversions.db
-├── requirements.txt
+├── .dockerignore
+├── .gitattributes
+├── .gitignore
 ├── Dockerfile
-└── README.md
+├── README.md
+└── requirements.txt
 ```
 
 ---
