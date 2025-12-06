@@ -1,6 +1,7 @@
 import json
 from typing import List, Optional
 
+import os
 import httpx
 from fastapi import APIRouter, HTTPException
 from sqlalchemy.orm import Session
@@ -10,8 +11,10 @@ from app import models, schemas
 
 router = APIRouter(prefix="/conversions", tags=["conversions"])
 
-# URL da Calcs API rodando localmente na porta 8000
-CALCS_API_URL = "http://127.0.0.1:8000"
+# URL da Calcs API
+# - Em desenvolvimento local (sem Docker) usa 127.0.0.1:8000
+# - Em Docker, será sobrescrita pela variável de ambiente CALCS_API_URL
+CALCS_API_URL = os.getenv("CALCS_API_URL", "http://127.0.0.1:8000")
 
 # API externa de clima (Open-Meteo) – Rio de Janeiro
 WEATHER_API_URL = (
