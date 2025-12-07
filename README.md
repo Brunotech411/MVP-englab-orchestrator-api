@@ -134,11 +134,10 @@ Acesse Swagger:
   "input_payload": {
     "power_kw": 50,
     "voltage_v": 440,
-    "power_factor": 0.85
-  },
-  {
-    "description": "Cálculo de corrente trifásica via Orchestrator"
-  }
+    "power_factor": 0.85},
+  "description": "Cálculo de corrente trifásica via Orchestrator"
+}
+
 ```
 ---
 
