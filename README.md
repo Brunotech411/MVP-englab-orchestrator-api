@@ -114,7 +114,13 @@ docker build -t englab-orchestrator-api .
 Windows / Mac / Linux:
 
 ```bash
-docker run --rm -p 8001:8001   -e CALCS_API_URL=http://host.docker.internal:8000   englab-orchestrator-api
+docker run --rm -p 8001:8001 \ 
+-e CALCS_API_URL=http://host.docker.internal:8000 \  englab-orchestrator-api
+```
+
+```bash
+Acesse Swagger:
+👉 http://127.0.0.1:8001/docs
 ```
 
 ---
