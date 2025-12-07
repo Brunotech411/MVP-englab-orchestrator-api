@@ -122,14 +122,24 @@ Acesse Swagger:
 
 ---
 
-## 🧪 Endpoints principais
+## 🧪 Endpoints principais + exemplos práticos
 
-- `POST /conversions`  
-- `GET /conversions`  
-- `GET /conversions/{id}`  
-- `PUT /conversions/{id}`  
-- `DELETE /conversions/{id}`  
+### 1️⃣ POST /conversions — Criar conversão
+> Cria um novo registro de conversão, orquestrando cálculo + clima + persistência.  
+> **Body para colar no Swagger (Exemplo: corrente trifásica):**
 
+```bash
+{
+  "calc_type": "three_phase_current",
+  "input_payload": {
+    "power_kw": 50,
+    "voltage_v": 440,
+    "power_factor": 0.85
+  },
+  {
+    "description": "Cálculo de corrente trifásica via Orchestrator"
+  }
+```
 ---
 
 ## 🌤️ API Externa
