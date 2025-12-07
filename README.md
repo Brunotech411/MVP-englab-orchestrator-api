@@ -1,7 +1,7 @@
 # EngLab Orchestrator API
 
-Microserviço principal responsável por **orquestrar cálculos**, integrar API externa de clima e persistir histórico de conversões.  
-Demonstra arquitetura baseada em componentes desacoplados.
+Microserviço principal responsável por **orquestrar cálculos**, integrar dados de clima em tempo real e persistir o histórico das operações.  
+Demonstra arquitetura baseada em componentes desacoplados e comunicação entre microsserviços.
 
 ---
 
@@ -9,23 +9,24 @@ Demonstra arquitetura baseada em componentes desacoplados.
 
 A Orchestrator API implementa:
 
-- Comunicação com a **Calcs API**  
-- Consumo da **API Open-Meteo**  
-- **CRUD completo** com SQLite  
-- FastAPI com módulos claros  
-- Agregação de dados e orquestração  
+- Comunicação direta com a **EngLab Calcs API**
+- Consumo da **API externa Open-Meteo**
+- Persistência com **SQLite**
+- CRUD completo
+- Validação via Pydantic
+- Projeto modular e escalável 
 
 ---
 
 ## 🧩 Fluxo da Orquestração
 
 1. Cliente envia requisição para `/conversions`  
-2. Orchestrator valida payload  
-3. Chama a **Calcs API**  
-4. Consulta **API de clima**  
-5. Consolida dados  
-6. Salva no SQLite  
-7. Retorna resultado completo  
+2. Payload é validado  
+3. Orchestrator chama a **Calcs API**  
+4. API externa Open-Meteo fornece temperatura atual  
+5. Dados são agregados  
+6. Registro é salvo no SQLite  
+7. Resposta completa é retornada ao cliente  
 
 ---
 
@@ -53,58 +54,54 @@ MVP-englab-orchestrator-api/
 
 ---
 
-## 🚀 Como rodar localmente
+## 🚀 Como rodar localmente (sem Docker)
 
-### 1. Criar ambiente virtual
+> Testado com **Python 3.11**.  
+> A Calcs API deve estar rodando em **http://127.0.0.1:8000**
+
+### 1️⃣ Criar ambiente virtual
 
 ```bash
 python -m venv venv
-./venv/Scripts/activate
+.venv\Scripts\activate
 ```
 
-### 2. Instalar dependências
+### 2️⃣ Instalar dependências
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Rodar servidor
+### 3️⃣ Executar servidor
 
 ```bash
 uvicorn app.main:app --reload --port 8001
 ```
 
-Acesse Swagger:  
-👉 **http://127.0.0.1:8001/docs**
+Swagger UI:  
+👉 http://127.0.0.1:8001/docs
 
 ---
 
-## 🧪 Endpoints principais
+## 📡 Subindo a Calcs API (obrigatório)
 
-### Criar conversão  
-`POST /conversions`
+A Orchestrator depende da Calcs API.
 
-### Listar conversões  
-`GET /conversions`
+### Via Uvicorn:
 
-### Buscar conversão  
-`GET /conversions/{id}`
+```bash
+uvicorn app.main:app --reload --port 8000
+```
 
-### Atualizar descrição  
-`PUT /conversions/{id}`
+### Ou via Docker:
 
-### Remover registro  
-`DELETE /conversions/{id}`
-
----
-
-## 🌤️ API Externa
-
-Integração com **Open-Meteo**, sem necessidade de chave de API.
+```bash
+docker run --rm -p 8000:8000 englab-calcs-api
+```
 
 ---
 
-## 🐳 Docker
+## 🐳 Docker — Orchestrator API
 
 ### Build
 
@@ -112,11 +109,29 @@ Integração com **Open-Meteo**, sem necessidade de chave de API.
 docker build -t englab-orchestrator-api .
 ```
 
-### Run
+### Run (apontando para a Calcs API local)
+
+Windows / Mac / Linux:
 
 ```bash
-docker run -p 8001:8001 englab-orchestrator-api
+docker run --rm -p 8001:8001   -e CALCS_API_URL=http://host.docker.internal:8000   englab-orchestrator-api
 ```
+
+---
+
+## 🧪 Endpoints principais
+
+- `POST /conversions`  
+- `GET /conversions`  
+- `GET /conversions/{id}`  
+- `PUT /conversions/{id}`  
+- `DELETE /conversions/{id}`  
+
+---
+
+## 🌤️ API Externa
+
+Usa a **Open-Meteo** para obter temperatura atual do Rio de Janeiro, sem necessidade de chave.
 
 ---
 
@@ -125,11 +140,10 @@ docker run -p 8001:8001 englab-orchestrator-api
 ```mermaid
 flowchart LR
 
-Client[(Cliente)]
-    -->|POST /conversions| Orchestrator
+Client[(Cliente)] -->|POST /conversions| Orchestrator
 
-Orchestrator -->|POST cálculo| Calcs
-Orchestrator -->|GET temperatura| WeatherAPI
+Orchestrator -->|POST cálculos| CalcsAPI[(Calcs API)]
+Orchestrator -->|GET temperatura| WeatherAPI[(Open-Meteo)]
 
 Orchestrator -->|INSERT| SQLite[(SQLite DB)]
 SQLite -->|SELECT| Orchestrator
@@ -137,6 +151,11 @@ SQLite -->|SELECT| Orchestrator
 
 ---
 
-## 🎯 Objetivo
+## 🎯 Objetivo acadêmico
 
-Demonstrar, de forma limpa e prática, um sistema baseado em microserviços com integração, persistência e API externa.
+Demonstrar:
+- Arquitetura de microsserviços  
+- Integração entre serviços independentes  
+- Consumo de API externa  
+- Persistência e CRUD  
+- Organização modular e clara  
