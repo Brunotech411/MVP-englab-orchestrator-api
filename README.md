@@ -126,6 +126,7 @@ Acesse Swagger:
 
 ### 1️⃣ POST /conversions — Criar conversão
 > Cria um novo registro de conversão, orquestrando cálculo + clima + persistência.  
+
 > **Body para colar no Swagger (Exemplo: corrente trifásica):**
 
 ```bash
