@@ -1,5 +1,6 @@
 # EngLab Orchestrator API
 
+Esta API funciona como componente principal (API principal) da arquitetura proposta neste MVP
 Microserviço principal responsável por **orquestrar cálculos**, integrar dados de clima em tempo real e persistir o histórico das operações.  
 Demonstra arquitetura baseada em componentes desacoplados e comunicação entre microsserviços.
 
@@ -261,6 +262,17 @@ DELETE /conversions/1
 ## 🌤️ API Externa
 
 Usa a **Open-Meteo** para obter temperatura atual do Rio de Janeiro, sem necessidade de chave.
+
+### 🌤️ API Externa — Open-Meteo
+
+Esta aplicação consome a API pública **Open-Meteo** para obter a temperatura atual de referência em Rio de Janeiro.
+
+- **Nome:** Open-Meteo Weather API  
+- **Documentação oficial:** https://open-meteo.com/  
+- **Autenticação:** não requer chave de API (uso gratuito).  
+- **Rota utilizada (exemplo):**  
+  `GET https://api.open-meteo.com/v1/forecast?latitude=-22.90&longitude=-43.20&current_weather=true`
+- **Uso na aplicação:** a resposta JSON é consumida diretamente pelo Orchestrator, que extrai a temperatura (`temperature_c`) e agrega esse dado na resposta da rota `POST /conversions`, sem redirecionar o usuário para outros sistemas.
 
 ---
 
