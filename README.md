@@ -137,7 +137,23 @@ Acesse Swagger:
     "power_factor": 0.85},
   "description": "Cálculo de corrente trifásica via Orchestrator"
 }
+```
+> **Exemplo de resposta esperada:**
 
+```bash
+{
+  "id": 1,
+  "calc_type": "three_phase_current",
+  "input_payload": {
+    "power_kw": 50,
+    "voltage_v": 440,
+    "power_factor": 0.85
+  },
+  "result_payload": {
+  "current_a": 76.97},
+  "temperature_c": 28.4,
+  "description": "Cálculo de corrente trifásica via Orchestrator",
+  "created_at": "2025-12-07T14:22:01.123456"}
 ```
 ---
 
