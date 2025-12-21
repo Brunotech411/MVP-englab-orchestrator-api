@@ -64,7 +64,7 @@ MVP-englab-orchestrator-api/
 
 ```bash
 python -m venv venv
-.venv\Scripts\activate
+venv\Scripts\activate
 ```
 
 ### 2️⃣ Instalar dependências
