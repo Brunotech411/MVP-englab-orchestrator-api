@@ -121,6 +121,23 @@ docker run --rm -p 8001:8001   -e CALCS_API_URL=http://host.docker.internal:8000
 Acesse Swagger:  
 👉 **http://127.0.0.1:8001/docs**
 
+
+### 🗄️ Persistência do SQLite (recomendado para avaliação)
+
+Por padrão, sem volume montado, o arquivo SQLite é criado dentro do container.
+Para garantir persistência entre reinicializações do container (e facilitar validação), monte o arquivo `conversions.db` no host:
+
+Windows (PowerShell):
+
+```powershell
+ni conversions.db -ItemType File -Force
+
+docker run --rm -p 8001:8001 `
+  -e CALCS_API_URL=http://host.docker.internal:8000 `
+  -v "${PWD}\conversions.db:/app/conversions.db" `
+  englab-orchestrator-api
+
+
 ---
 
 ## 🧪 Endpoints principais + exemplos práticos
