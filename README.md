@@ -136,7 +136,7 @@ docker run --rm -p 8001:8001 `
   -e CALCS_API_URL=http://host.docker.internal:8000 `
   -v "${PWD}\conversions.db:/app/conversions.db" `
   englab-orchestrator-api
-
+```
 
 ---
 
